@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { debounce } from 'lodash';
 import { RefreshCcw } from 'lucide-react';
+import Message from "@/components/message";
 
 type Props = {
   amount: number;
@@ -36,22 +37,19 @@ export default function PredictConvertAmount(props: Props) {
     predictPrice(amount, from, to);
   }, [amount, from, to]);
 
-  if (isNaN(amount) || amount <= 0)
-    return (
-      <span className="text-sm text-red-500">
-        Invalid amount.
-      </span>
-    );
+  if (isNaN(amount) || amount <= 0 || !from || !to) {
+    return null;
+  }
   if (loading)
     return (
-      <span className="flex items-center gap-2 text-sm text-green-600">
-        <RefreshCcw className="h-4 w-4" />
-        Converting...
-      </span>
+      <Message className="flex items-center gap-2 text-sm text-green-600 bg-green-100">
+        <RefreshCcw className="h-4 w-4 animate-spin" />
+        Converting... 🏃‍♂️‍➡️
+      </Message>
     );
   return (
-    <span className="text-sm">
+    <Message className="text-sm bg-cyan-100">
       {amount} {from} = <span className="text-red-500">{prediction}</span> {to}
-    </span>
+    </Message>
   );
 }

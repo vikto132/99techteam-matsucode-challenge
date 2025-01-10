@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useState } from 'react';
 import { MoveRight } from 'lucide-react';
 import CurrencySelection from '@/components/currency-selection';
+import { cn } from '@/lib/utils';
 
 type Props = {
   onCurrencySelected: (currency: { from: string; to: string }) => void;
@@ -49,7 +50,9 @@ export default function CurrencyForm(props: Props) {
             <AvatarImage src={fromCurrency?.image} alt={fromCurrency?.code ?? ''} />
             <AvatarFallback>{fromCurrency?.code ?? '$$$'}</AvatarFallback>
           </Avatar>
-          {fromCurrency?.code}
+          <span className={cn(fromCurrency?.code ? '' : 'text-transparent')}>
+            {fromCurrency?.code ?? 'none'}
+          </span>
         </CurrencySelection>
         <MoveRight className="h-20 w-20" />
         <CurrencySelection onSelected={(code) => onSelectCurrency(code, 'to')}>
@@ -57,10 +60,10 @@ export default function CurrencyForm(props: Props) {
             <AvatarImage src={toCurrency?.image} alt={toCurrency?.code ?? ''} />
             <AvatarFallback>{toCurrency?.code ?? '$$$'}</AvatarFallback>
           </Avatar>
-          {toCurrency?.code}
+          <span className={cn(toCurrency?.code ? '' : 'text-transparent')}>
+            {toCurrency?.code ?? 'none'}
+          </span>
         </CurrencySelection>
-        <input hidden value={fromCurrency?.code ?? ''} name="from" readOnly />
-        <input hidden value={toCurrency?.code ?? ''} name="to" readOnly />
       </div>
       {error && <div className="mb-4 rounded bg-red-100 p-2 text-sm text-red-600">{error}</div>}
     </div>
